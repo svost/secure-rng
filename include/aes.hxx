@@ -6,6 +6,7 @@
 
 #include <cstdint>
 #include <array>
+#include <vector>
 
 
 constexpr uint32_t Nb = 4;
@@ -25,13 +26,13 @@ using aes_key_t = std::array<uint8_t, 4 * Nk>;
 using aes_block_t = std::array<uint8_t, AES_BLOCKLEN>;
 
 #ifdef SOFTWARE_FALLBACK
-void aesctr256_software (uint8_t *out, const uint8_t *sk, const void *counter, int bytes);
-void aesctr256_zeroiv_software (uint8_t *out, const uint8_t *sk, int bytes);
+void aesctr256_software (std::vector<aes_block_t> &out, const aes_key_t &sk, const aes_block_t &counter);
+void aesctr256_zeroiv_software (std::vector<aes_block_t> &out, const aes_key_t &sk);
 #endif
 
 #ifdef HARDWARE_SUPPORT
-void aesctr256_hardware (uint8_t *out, const uint8_t *sk, const void *counter, int bytes);
-void aesctr256_zeroiv_hardware (uint8_t *out, const uint8_t *sk, int bytes);
+void aesctr256_hardware (std::vector<aes_block_t> &out, const aes_key_t &sk, const aes_block_t &counter);
+void aesctr256_zeroiv_hardware (std::vector<aes_block_t> &out, const aes_key_t &sk);
 int aes_hardware_supported();
 #endif
 
